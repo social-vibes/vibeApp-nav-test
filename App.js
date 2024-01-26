@@ -62,7 +62,7 @@ export default function App() {
             },
             }} 
         />
-        <Tab.Screen name="MapS" 
+        <Tab.Screen name="Maps" 
         component={MapScreen}
         options={{
           headerStyle: {
