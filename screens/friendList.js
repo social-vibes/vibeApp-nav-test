@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, FlatList, Text, StyleSheet,Pressable } from 'react-native';
 import UserAvatar from 'react-native-user-avatar';
-import ChatScreen from './chatScreen';
 
 export default function Friends({ navigation }) {
     const users = [
