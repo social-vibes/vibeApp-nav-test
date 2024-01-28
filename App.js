@@ -1,20 +1,83 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Friends from './screens/friendList'; 
+import ChatScreen from './screens/chatScreen';
+import MapScreen from './screens/mapScreen';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
+
+const Tab = createBottomTabNavigator();
+const FriendsStack = createStackNavigator();
+
+function FriendsStackScreen() {
+  return (
+    <FriendsStack.Navigator>
+      <FriendsStack.Screen name="friendList" 
+      component={Friends}
+      options={{
+        headerShown: false,}}/>
+      <FriendsStack.Screen 
+          name="chatScreen" 
+          component={ChatScreen}
+          options={({ navigation, route }) => ({
+            headerShown: true, 
+          })}
+      />
+    </FriendsStack.Navigator>
+  );
+}
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+            if (route.name === 'Friends') {
+              iconName = focused ? 'chatbubble-ellipses' : 'chatbubble-ellipses-outline';
+            } else if (route.name === 'MapS') {
+              iconName = focused ? 'map' : 'map-outline';
+            }
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'pink',
+          inactiveTintColor: 'gray',
+        }}
+      >
+        <Tab.Screen name="Friends" 
+        component={FriendsStackScreen}
+        options={{
+            headerStyle: {
+                backgroundColor: '#FF1987', 
+            },
+            headerTintColor: '#fff', 
+            headerTitleStyle: {
+            fontWeight: 'bold', 
+            fontSize: 20,
+            },
+            }} 
+        />
+        <Tab.Screen name="Maps" 
+        component={MapScreen}
+        options={{
+          headerStyle: {
+              backgroundColor: '#FF1987', 
+          },
+          headerTintColor: '#fff', 
+          headerTitleStyle: {
+          fontWeight: 'bold', 
+          fontSize: 20,
+          },
+          }} 
+         />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
